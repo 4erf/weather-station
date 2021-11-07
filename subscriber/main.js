@@ -24,7 +24,7 @@ server.on('message', (buf, rinfo) => {
 		return;
 	}
 	json.timestamp = new Date().getTime()
-	fs.appendFile(file, JSON.stringify(json) + '\n', { encoding: 'ascii' }, (err) => {
+	fs.appendFile(file, JSON.stringify(json) + ',\n', { encoding: 'ascii' }, (err) => {
 		return err && console.error("Error while appending data to file: " + err)
 	})
 })
