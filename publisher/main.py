@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import signal
 import sys
 import time
@@ -40,12 +42,14 @@ def weather_loop():
         temp = dht11.temperature
         hum = dht11.humidity
         if temp is not None and hum is not None:
-            print(f'Temp: {temp}C   Hum: {hum}%')
-            send_thread = threading.Thread(target=send, args=(temp, hum)) 
-            send_thread.daemon = True
-            send_thread.start()
-            last_temp = temp
-            last_hum = hum
+            global last_temp, last_hum
+            if temp != last_temp or hum != last_hum:
+                print(f'Temp: {temp}C   Hum: {hum}%')
+                send_thread = threading.Thread(target=send, args=(temp, hum)) 
+                send_thread.daemon = True
+                send_thread.start()
+                last_temp = temp
+                last_hum = hum
         else:
             print("Sensor failure. Check wiring.")
         time.sleep(10)
